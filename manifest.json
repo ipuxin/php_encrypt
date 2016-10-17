@@ -1,4 +1,4 @@
-﻿{
+{
     "@platforms": ["android", "iPhone", "iPad"],
     "id": "H5B171562",/*应用的标识，创建应用时自动生成，勿手动修改*/
     "name": "php_encrypt",/*应用名称，程序桌面图标名称*/
@@ -229,7 +229,10 @@
 					"fonts/mui.ttf",
 					"css/mui.min.css"
 				],
-				"refer": [],
+				"refer": [
+					"index.html",
+					"detail.html"
+				],
 				"priority": 0
 			}
 		},

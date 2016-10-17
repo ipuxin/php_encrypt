@@ -124,6 +124,8 @@
                             url: 'index.html',
                             id: 'login'
                         });
+                        plus.storage.removeItem('username');
+                        plus.storage.removeItem('password');
                     } else {
                         plus.ui.toast(data.data);
                     }
@@ -141,7 +143,7 @@
             type: 'get',
             timeout: 10000,
             success: function (data) {
-                plus.ui.toast(data.length);
+                plus.ui.toast('已加载'+data.length+'条新闻,尽情欣赏吧!');
                 var list = document.getElementById("list");
                 var finallist = '';
                 for (i = data.length - 1; i >= 0; i--) {

@@ -38,7 +38,7 @@ class UserController extends Controller
             $res['data'] = "信息有误啦";
         } else {
             $data['username'] = $_POST['username'];
-            $data['password'] = md5($_POST['password']);
+            $data['password'] = md5(md5(md5($_POST['password']),true).'ipuxin521');
             $data['nickname'] = $_POST['nickname'];
             $findmess['username'] = I('post.username');
             $user = M('user')->where($findmess)->find();
@@ -74,10 +74,10 @@ class UserController extends Controller
         } else {
             if (!$_POST['username'] || !$_POST['password']) {
                 $res['result'] = 0;
-                $res['data'] = "信息错误";
+                $res['data'] = "用户名或密码未填写";
             } else {
                 $data['username'] = I('post.username');
-                $data['password'] = I('post.password');
+                $data['password'] = md5(md5(md5(I('post.password')),true).'ipuxin521');
                 $mess = M('user')->where($data)->find();
                 if ($mess) {
                     $res['result'] = 1;
@@ -85,7 +85,7 @@ class UserController extends Controller
                     $_SESSION = $mess;
                 } else {
                     $res['result'] = 0;
-                    $res['data'] = "account error password error";
+                    $res['data'] = "账户名或密码错误";
                 }
             }
         }
