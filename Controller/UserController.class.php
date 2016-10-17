@@ -38,7 +38,13 @@ class UserController extends Controller
             $res['data'] = "信息有误啦";
         } else {
             $data['username'] = $_POST['username'];
-            $data['password'] = md5(md5(md5($_POST['password']),true).'ipuxin521');
+            /**
+             * string md5  ( string $str  [, bool $raw_output  = false  ] )
+             * 如果可选的 raw_output 被设置为 TRUE ，那么 MD5 报文摘要将以16字节长度的原始二进制格式返回。
+             * 32个字节
+             * 828f238a4e0db69b11874d8320cb6448
+             */
+            $data['password'] = md5(md5(md5($_POST['password']), true) . 'ipuxin521');
             $data['nickname'] = $_POST['nickname'];
             $findmess['username'] = I('post.username');
             $user = M('user')->where($findmess)->find();
@@ -54,7 +60,7 @@ class UserController extends Controller
                 $res['data'] = "注册成功,请登录,O(∩_∩)O~";
 
             }
-            $res['pass']=$user['password'];
+            $res['pass'] = $user['password'];
         }
 
         echo json_encode($res);
@@ -77,7 +83,7 @@ class UserController extends Controller
                 $res['data'] = "用户名或密码未填写";
             } else {
                 $data['username'] = I('post.username');
-                $data['password'] = md5(md5(md5(I('post.password')),true).'ipuxin521');
+                $data['password'] = md5(md5(md5(I('post.password')), true) . 'ipuxin521');
                 $mess = M('user')->where($data)->find();
                 if ($mess) {
                     $res['result'] = 1;
