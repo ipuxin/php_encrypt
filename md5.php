@@ -1,11 +1,16 @@
 <?php
 /**
- *string md5  ( string $str  [, bool $raw_output  = false  ] )
- * 如果可选的 raw_output 被设置为 TRUE ，那么 MD5 报文摘要将以16字节长度的原始二进制格式返回。
+ * 使用场景:
+ * 传参时:如果参数含有关键字&
  */
 
 /**
- * 3秒跳转页面
+ * 如果用户名为:dabao&king
+ * Array ( [username] => dabao [king] => [age] => 18 )
  */
-echo "<meta http-equiv='refresh' content='3;url=reg.html'/>";
-
+if(isset($_GET)){
+    print_r($_GET);
+}
+echo '<hr>';
+$str = 'http://localhost/git/php_encrypt/md5.php?username=dabao&king&age=18';
+echo "<a href='" . $str . "'>特殊用户名</a><br>";
