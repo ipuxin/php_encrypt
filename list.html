@@ -1,0 +1,201 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+</head>
+
+<body>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title">ipuxin-新闻列表</h1>
+</header>
+<div class="mui-content">
+    <div class="mui-content-padded">
+        <button type="button" class="mui-btn mui-btn-block mui-badge-warning" id="logout">注销</button>
+        <h4>您好,欢迎登陆9y.cm新闻客户端</h4>
+        <button type="button" class="mui-btn mui-btn-block mui-badge-primary" id="load">加载</button>
+
+    </div>
+    <ul class="mui-table-view" id="list">
+
+    </ul>
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell mui-media">
+            <a href="javascript:;">
+                <img class="mui-media-object mui-pull-right" src="http://placehold.it/40x30">
+                <div class="mui-media-body">
+                    幸福
+                    <p class="mui-ellipsis">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+                </div>
+            </a>
+        </li>
+        <li class="mui-table-view-cell mui-media">
+            <a href="javascript:;">
+                <img class="mui-media-object mui-pull-right" src="http://placehold.it/40x30">
+                <div class="mui-media-body">
+                    木屋
+                    <p class="mui-ellipsis">想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
+                </div>
+            </a>
+        </li>
+        <li class="mui-table-view-cell mui-media">
+            <a href="javascript:;">
+                <img class="mui-media-object mui-pull-right" src="http://placehold.it/40x30">
+                <div class="mui-media-body">
+                    CBD
+                    <p class="mui-ellipsis">烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
+                </div>
+            </a>
+        </li>
+    </ul>
+    <hr/>
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell mui-media">
+            <a href="javascript:;">
+                <img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30">
+                <div class="mui-media-body">
+                    幸福
+                    <p class="mui-ellipsis">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+                </div>
+            </a>
+        </li>
+        <li class="mui-table-view-cell mui-media">
+            <a href="javascript:;">
+                <img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30">
+                <div class="mui-media-body">
+                    木屋
+                    <p class="mui-ellipsis">想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
+                </div>
+            </a>
+        </li>
+        <li class="mui-table-view-cell mui-media">
+            <a href="javascript:;">
+                <img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30">
+                <div class="mui-media-body">
+                    CBD
+                    <p class="mui-ellipsis">烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
+                </div>
+            </a>
+        </li>
+    </ul>
+    <hr/>
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right">
+                Item 1
+            </a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right">
+                Item 2
+            </a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right">
+                Item 3
+            </a>
+        </li>
+    </ul>
+</div>
+
+<script src="js/mui.min.js"></script>
+<script type="text/javascript">
+    mui.init();
+    mui.plusReady(function () {
+
+        var logout = document.getElementById("logout");
+        var load = document.getElementById("load");
+
+        logout.addEventListener('tap', function () {
+            mui.ajax('http://www.ipuxin.com/index.php/Home/User/logout', {
+                dataType: 'json',
+                type: 'get',
+                timeout: 10000,
+                success: function (data) {
+                    if (data.result == 1) {
+                        plus.ui.toast(data.data);
+                        //注销成功，回到登录界面
+                        mui.openWindow({
+                            url: 'index.html',
+                            id: 'login'
+                        });
+                    } else {
+                        plus.ui.toast(data.data);
+                    }
+                },
+                error: function () {
+
+                }
+            })
+
+        });
+
+        //请求列表数据
+        mui.ajax('http://www.ipuxin.com/index.php/Home/News/getlist', {
+            dataType: 'json',
+            type: 'get',
+            timeout: 10000,
+            success: function (data) {
+                plus.ui.toast(data.length);
+                var list = document.getElementById("list");
+                var finallist = '';
+                for (i = data.length - 1; i >= 0; i--) {
+                    finallist = finallist +
+                            '<li data-id="' + i + '" class="mui-table-view-cell"><a class="mui-navigate-right"><img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30"><div class="mui-media-body">' +
+                            data[i].title + '<p class="mui-ellipsis">' +
+                            data[i].content + '</p></div></a></li>';
+                }
+                list.innerHTML = finallist;
+
+                //点击进入详情页面
+                mui('#list').on('tap', 'li', function () {
+                    mui.openWindow({
+                        url: 'detail.html',
+                        id: 'detail',
+                        extras: {
+                            title: data[this.getAttribute('data-id')].title,
+                            author: data[this.getAttribute('data-id')].author,
+                            pubtime: data[this.getAttribute('data-id')].pubtime,
+                            content: data[this.getAttribute('data-id')].content
+                        }
+                    })
+                })
+            },
+            error: function () {
+
+            }
+        });
+
+        load.addEventListener('tap', function () {
+            plus.ui.toast('尽情欣赏吧!');
+            mui.ajax('http://www.ipuxin.com/index.php/Home/News/getlist', {
+                dataType: 'json',
+                type: 'get',
+                timeout: 10000,
+                success: function (data) {
+                    plus.ui.toast(data.length);
+                    var list = document.getElementById("list");
+                    var finallist = '';
+                    for (i = data.length - 1; i >= 0; i--) {
+                        finallist = finallist +
+                                '<li class="mui-table-view-cell"><a class="mui-navigate-right"><img class="mui-media-object mui-pull-left" src="http://placehold.it/40x30"><div class="mui-media-body">' +
+                                data[i].title + '<p class="mui-ellipsis">' +
+                                data[i].content + '</p></div></a></li>';
+                    }
+                    list.innerHTML = finallist;
+                },
+                error: function () {
+
+                }
+            })
+        })
+
+    })
+</script>
+</body>
+</html>
